@@ -186,11 +186,11 @@ class Dropout(Layer):
 
     def forward(self, x):
         if not self.training:
-            return x                 # 推理时原样通过
+            return x
         
         keep_prob = 1 - self.drop_rate
         self.mask = (cp.random.rand(*x.shape) < keep_prob).astype(x.dtype)
-        return x * self.mask / keep_prob   # inverted dropout
+        return x * self.mask / keep_prob
 
     def backward(self, grad):
         return grad * self.mask / (1 - self.drop_rate)
@@ -204,7 +204,7 @@ class MLP:
             self.layers.append(Linear(num_in, num_out))
             self.layers.append(ReLU())
             if dropout:
-                self.layers.append(Dropout())  # 每个隐藏层后面跟一个
+                self.layers.append(Dropout())
             num_in = num_out
         self.layers.append(Linear(num_in, layerlist[-1]))
 
