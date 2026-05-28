@@ -1,4 +1,22 @@
-# CNN-based-on-cupy
-这是一个纯由 cupy 搭建，未使用 pytorch 的简单 CNN。 内部框架较为完善，类内部与类之间的逻辑清晰。 所有超参数和激活函数都使用字典存储（激活函数只写了 ReLU 函数，可根据需要自行添加），类里也封装好了一些函数，如测试集专用的 evaluate 函数。 目前本项目只有简单的最大池化与 dropout ，做到了 EMNIST 字母集识别，测试集准确率在 94% 左右。可根据需求自行改变 layerlist 适配不同输入输出或者调整隐藏层。 同时使用 plt 实现了 loss 与 accruacy 随 epoch 变化的可视化结果。代码最后部分卷积通道可视化由 ai 生成。
+CNN —— 基于 CuPy 的 EMNIST 字母识别
+从零实现卷积神经网络，不依赖 PyTorch，深入理解反向传播与 GPU 加速。
 
-更新了 Adam 优化器。  2026/5/27
+卷积层	手写 im2col / col2im，支持 stride / padding
+池化层	MaxPool 正向 + 反向传播
+优化器	SGD + Adam（含 weight decay）
+正则化	Dropout（Inverted）、学习率衰减
+可视化	Loss/Acc 曲线、逐层特征图（Feature Map）
+
+项目结构
+config.py          # 超参数配置
+layers.py          # 网络层定义（Conv2D / MaxPool / Linear / ReLU / Dropout）
+model.py           # CNN 和 MLP 模型架构
+optimizer.py       # SGD / Adam 优化器
+utils.py           # 数据加载、im2col 运算
+visualize.py       # 训练曲线 & 特征图可视化
+train.py           # 训练入口脚本
+
+环境
+Python 3.9+
+CUDA 12.x
+CuPy 12.x
